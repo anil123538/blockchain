@@ -1,4 +1,4 @@
-
+import { ethers } from 'ethers';
 const contractAddress = "0xC5E0e0b25c9B4b4a5f9c3Ed6e1f13E3e88f8e034"; // Replace with your contract address
 const abi = [ [
 	{
@@ -286,22 +286,43 @@ const abi = [ [
 
 let provider, signer, contract;
 
-async function initialize() {
-    if (window.ethereum) {
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        signer = provider.getSigner();
-        contract = new ethers.Contract(contractAddress, abi, signer);
+if (window.ethereum) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    window.ethereum.request({ method: 'eth_requestAccounts' })
+        .then(accounts => {
+            signer = provider.getSigner();
+            console.log("Connected account:", accounts[0]);
+            initializeContract();
+        })
+        .catch(error => {
+            console.error("User denied account access:", error);
+        });
+} else {
+    console.log("Please install MetaMask!");
+}
 
-        console.log("Connected to contract:", contractAddress);
+async function initializeContract() {
+    contract = new ethers.Contract(contractAddress, abi, signer);
 
-        // Example: Update the UI with initial state
-        const balance = await provider.getBalance(contractAddress);
-        document.getElementById("output").innerText = `Contract Balance: ${ethers.utils.formatEther(balance)} ETH`;
-    } else {
-        alert("Please install Metamask!");
+    // Example of calling a smart contract function (non-state-changing)
+    try {
+        const result = await contract.someMethod(); // Replace 'someMethod' with your contract function
+        console.log(result);
+    } catch (error) {
+        console.error("Error calling contract function:", error);
     }
 }
 
+// Example: Send a transaction to a smart contract function (state-changing)
+async function sendTransactionToContract(arg1, arg2) {
+    try {
+        const tx = await contract.someStateChangingMethod(arg1, arg2); // Replace 'someStateChangingMethod' with your method
+        await tx.wait(); // Wait for transaction to be mined
+        console.log("Transaction confirmed:", tx);
+    } catch (error) {
+        console.error("Error sending transaction:", error);
+    }
+}
 document.getElementById("become-member").addEventListener("click", async () => {
     try {
         const tx = await contract.becomeMember({ value: ethers.utils.parseEther("1") });
