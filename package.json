@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Library Management DApp",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server --port=3000 --open=./index.html",
+    "dev": "live-server --port=3000 --open=./index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "library",
+    "dapp",
+    "frontend"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.4"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
