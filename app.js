@@ -347,31 +347,6 @@ document.getElementById("withdraw-funds").addEventListener("click", async () => 
         alert("Failed to withdraw funds");
     }
 });
-async function getBookDetails(bookId) {
-    try {
-        const book = await contract.getBooksdetails(bookId);
-        console.log(book);
-        
-        // Update the UI with the book details
-        document.getElementById("bookTitle").innerText = book[0];
-        document.getElementById("bookPrice").innerText = ethers.utils.formatEther(book[1]) + " ETH";
-        document.getElementById("bookAvailability").innerText = book[2] ? "Available" : "Not Available";
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
-document.getElementById("become-member").disabled = true;
-document.getElementById("become-member").innerText = "Processing...";
 
-try {
-    const tx = await contract.becomeMember({ value: ethers.utils.parseEther("1.0") });
-    await tx.wait();
-    alert("You are now a member!");
-} catch (error) {
-    alert("Error: " + error.message);
-} finally {
-    document.getElementById("become-member").disabled = false;
-    document.getElementById("become-member").innerText = "Join Now";
-}
 
 initialize();
