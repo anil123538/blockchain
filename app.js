@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+
 const contractAddress = "0xC5E0e0b25c9B4b4a5f9c3Ed6e1f13E3e88f8e034"; // Replace with your contract address
 const abi = [ [
 	{
